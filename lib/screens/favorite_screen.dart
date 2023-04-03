@@ -1,20 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tumbuh_app/models/plant_model.dart';
+import 'package:flutter_tumbuh_app/providers/favorite_plant_provider.dart';
 import 'package:flutter_tumbuh_app/screens/home_screen.dart';
+import 'package:provider/provider.dart';
 
-class FavoriteScreen extends StatefulWidget {
-  const FavoriteScreen({Key? key}) : super(key: key);
-
-  @override
-  _FavoriteScreenState createState() => _FavoriteScreenState();
-}
-
-class _FavoriteScreenState extends State<FavoriteScreen> {
-  bool _isFavorite = false;
+class FavoriteScreen extends StatelessWidget {
+  const FavoriteScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final List<Plant> favoritePlants = Provider.of<FavoritePlantProvider>(
+      context,
+      listen: false,
+    ).favoritePlants;
+
     return Scaffold(
       backgroundColor: Color(0xFFFFFFFF),
       body: Column(
@@ -71,9 +73,9 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                 horizontal: 25.0,
               ),
               child: ListView.builder(
-                itemCount: plants.length,
+                itemCount: favoritePlants.length,
                 itemBuilder: (context, index) {
-                  final Plant plant = plants[index];
+                  final Plant plant = favoritePlants[index];
                   return ListTile(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20.0),
@@ -95,17 +97,6 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                         style: TextStyle(fontSize: 12.0),
                       ),
                     ),
-                    trailing: Icon(
-                      _isFavorite
-                          ? CupertinoIcons.heart_fill
-                          : CupertinoIcons.heart,
-                      color: Color(0xFF474A57),
-                    ),
-                    onTap: () {
-                      setState(() {
-                        _isFavorite = !_isFavorite;
-                      });
-                    },
                   );
                 },
               ),

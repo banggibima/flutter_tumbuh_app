@@ -2,20 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tumbuh_app/models/plant_model.dart';
 
-class PlantScreen extends StatefulWidget {
+class PlantScreen extends StatelessWidget {
   const PlantScreen({
     Key? key,
     required this.plant,
+    required this.isFavorite,
+    required this.onCheckboxClick,
   }) : super(key: key);
 
   final Plant plant;
-
-  @override
-  _PlantScreenState createState() => _PlantScreenState();
-}
-
-class _PlantScreenState extends State<PlantScreen> {
-  bool _isFavorite = false;
+  final bool isFavorite;
+  final Function(bool? value) onCheckboxClick;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +39,7 @@ class _PlantScreenState extends State<PlantScreen> {
                 ),
               ),
               child: Image.asset(
-                '${widget.plant.image}',
+                '${plant.image}',
                 width: 20.0,
               ),
             ),
@@ -53,9 +50,7 @@ class _PlantScreenState extends State<PlantScreen> {
             ),
             child: GestureDetector(
               onTap: () {
-                setState(() {
-                  _isFavorite = !_isFavorite;
-                });
+                onCheckboxClick(!isFavorite);
               },
               child: Row(
                 children: [
@@ -72,7 +67,7 @@ class _PlantScreenState extends State<PlantScreen> {
                     ),
                     child: Center(
                       child: Icon(
-                        _isFavorite
+                        isFavorite
                             ? CupertinoIcons.heart_fill
                             : CupertinoIcons.heart,
                         color: Color(
@@ -93,7 +88,7 @@ class _PlantScreenState extends State<PlantScreen> {
               horizontal: 40.0,
             ),
             child: Text(
-              '${widget.plant.name}',
+              '${plant.name}',
               style: TextStyle(
                 fontSize: 26.0,
                 fontWeight: FontWeight.w700,
@@ -135,7 +130,7 @@ class _PlantScreenState extends State<PlantScreen> {
                         left: 40.0,
                       ),
                       child: Text(
-                        '${widget.plant.rate}',
+                        '${plant.rate}',
                         style: TextStyle(
                           fontSize: 16.0,
                           fontWeight: FontWeight.w500,
@@ -170,7 +165,7 @@ class _PlantScreenState extends State<PlantScreen> {
                         left: 20.0,
                       ),
                       child: Text(
-                        '${widget.plant.size}',
+                        '${plant.size}',
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
@@ -196,7 +191,7 @@ class _PlantScreenState extends State<PlantScreen> {
                   horizontal: 40,
                 ),
                 child: Text(
-                  '${widget.plant.description}',
+                  '${plant.description}',
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w300,
